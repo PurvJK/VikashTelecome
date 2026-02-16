@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { megaMenuCategories } from "@/data/categories";
 
 export const MegaMenu = () => {
@@ -13,16 +14,24 @@ export const MegaMenu = () => {
       <div className="grid grid-cols-4 gap-6">
         {megaMenuCategories.map((category) => (
           <div key={category.title}>
-            <h4 className="font-semibold text-sm text-foreground mb-3">{category.title}</h4>
+            <h4 className="font-semibold text-sm text-foreground mb-3">
+              {category.title === "Audio" ? (
+                <Link to="/collections/audio" className="hover:text-primary transition-colors">
+                  {category.title}
+                </Link>
+              ) : (
+                category.title
+              )}
+            </h4>
             <ul className="space-y-2">
               {category.items.map((item) => (
                 <li key={item}>
-                  <a
-                    href="#"
+                  <Link
+                    to={category.title === "Audio" ? "/collections/audio" : "#"}
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
