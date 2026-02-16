@@ -8,6 +8,7 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import Index from "./pages/Index";
 import AudioCategory from "./pages/AudioCategory";
 import NotFound from "./pages/NotFound";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
               <Route path="/collections/audio" element={<AudioCategory />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <MobileBottomNav />
           </BrowserRouter>
         </WishlistProvider>
       </CartProvider>
