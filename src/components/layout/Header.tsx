@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Search, User, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { MegaMenu } from "./MegaMenu";
@@ -17,14 +17,46 @@ export const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMegaMenuLocked, setIsMegaMenuLocked] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { totalItems, setIsCartOpen } = useCart();
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleMouseEnter = () => {
+    clearTimeout(hoverTimeoutRef.current);
+    if (!isMegaMenuLocked) {
+      setIsMegaMenuOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMegaMenuLocked) {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setIsMegaMenuOpen(false);
+      }, 150);
+    }
+  };
+
+  const handleClick = () => {
+    if (isMegaMenuLocked) {
+      setIsMegaMenuLocked(false);
+      setIsMegaMenuOpen(false);
+    } else {
+      setIsMegaMenuLocked(true);
+      setIsMegaMenuOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    setIsMegaMenuLocked(false);
+    setIsMegaMenuOpen(false);
+  };
 
   return (
     <>
@@ -53,7 +85,9 @@ export const Header = () => {
                 <div key={link.label} className="relative">
                   {link.hasMega ? (
                     <button
-                      onClick={() => setIsMegaMenuOpen((prev) => !prev)}
+                      onClick={handleClick}
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
                       className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors py-2"
                     >
                       {link.label}
@@ -73,7 +107,6 @@ export const Header = () => {
 
             {/* Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Search */}
               <AnimatePresence>
                 {isSearchOpen && (
                   <motion.div
@@ -123,7 +156,6 @@ export const Header = () => {
                 )}
               </button>
 
-              {/* Mobile menu toggle */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="p-2 rounded-full hover:bg-muted transition-colors lg:hidden"
@@ -136,9 +168,16 @@ export const Header = () => {
         </div>
       </header>
 
-      {/* MegaMenu rendered outside header for center positioning */}
+      {/* MegaMenu - backdrop + centered dropdown */}
       <AnimatePresence>
-        {isMegaMenuOpen && <MegaMenu onClose={() => setIsMegaMenuOpen(false)} />}
+        {isMegaMenuOpen && (
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <MegaMenu onClose={handleClose} />
+          </div>
+        )}
       </AnimatePresence>
 
       <AnimatePresence>

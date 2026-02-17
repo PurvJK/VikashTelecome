@@ -21,7 +21,7 @@ export const MegaMenu = ({ onClose }: MegaMenuProps) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.2 }}
-      className="fixed top-16 lg:top-20 left-1/2 -translate-x-1/2 w-[700px] bg-background border border-border rounded-xl shadow-card-hover p-6 z-50"
+      className="fixed top-16 lg:top-20 inset-x-0 mx-auto w-[700px] bg-background border border-border rounded-xl shadow-card-hover p-6 z-50"
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-foreground">All Categories</h3>
