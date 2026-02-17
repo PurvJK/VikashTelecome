@@ -50,25 +50,22 @@ export const Header = () => {
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => (
-                <div
-                  key={link.label}
-                  className="relative"
-                  onMouseEnter={() => link.hasMega && setIsMegaMenuOpen(true)}
-                  onMouseLeave={() => link.hasMega && setIsMegaMenuOpen(false)}
-                >
-                  <a
-                    href={link.href}
-                    className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors py-2"
-                  >
-                    {link.label}
-                    {link.hasMega && (
+                <div key={link.label} className="relative">
+                  {link.hasMega ? (
+                    <button
+                      onClick={() => setIsMegaMenuOpen((prev) => !prev)}
+                      className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors py-2"
+                    >
+                      {link.label}
                       <ChevronDown className={`w-4 h-4 transition-transform ${isMegaMenuOpen ? "rotate-180" : ""}`} />
-                    )}
-                  </a>
-                  {link.hasMega && (
-                    <AnimatePresence>
-                      {isMegaMenuOpen && <MegaMenu />}
-                    </AnimatePresence>
+                    </button>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors py-2"
+                    >
+                      {link.label}
+                    </a>
                   )}
                 </div>
               ))}
@@ -138,6 +135,11 @@ export const Header = () => {
           </div>
         </div>
       </header>
+
+      {/* MegaMenu rendered outside header for center positioning */}
+      <AnimatePresence>
+        {isMegaMenuOpen && <MegaMenu onClose={() => setIsMegaMenuOpen(false)} />}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isMobileMenuOpen && <MobileMenu onClose={() => setIsMobileMenuOpen(false)} />}

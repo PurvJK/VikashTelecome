@@ -13,6 +13,9 @@ const categoryImages: Record<string, string> = {
 
 const categoryLinks: Record<string, string> = {
   Audio: "/collections/audio",
+  Charging: "/collections/charging",
+  "Smart Devices": "/collections/smart-devices",
+  Accessories: "/collections/accessories",
 };
 
 interface Props {
