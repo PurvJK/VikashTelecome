@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product } from "@/data/products";
@@ -27,7 +28,7 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       className="group bg-card rounded-2xl border border-border/50 overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1"
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden bg-muted/30">
+      <Link to={`/product/${product.id}`} className="relative aspect-square overflow-hidden bg-muted/30 block">
         <img
           src={isHovered ? product.hoverImage : product.image}
           alt={product.title}
@@ -72,13 +73,15 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             Add to Cart
           </button>
         </motion.div>
-      </div>
+      </Link>
 
       {/* Info */}
       <div className="p-4">
-        <h3 className="font-medium text-sm text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors">
-          {product.title}
-        </h3>
+        <Link to={`/product/${product.id}`}>
+          <h3 className="font-medium text-sm text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors">
+            {product.title}
+          </h3>
+        </Link>
         <div className="flex items-center gap-1 mb-2">
           {Array.from({ length: 5 }).map((_, i) => (
             <Star

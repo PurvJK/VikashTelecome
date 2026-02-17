@@ -10,6 +10,7 @@ import AudioCategory from "./pages/AudioCategory";
 import ChargingCategory from "./pages/ChargingCategory";
 import SmartDevicesCategory from "./pages/SmartDevicesCategory";
 import AccessoriesCategory from "./pages/AccessoriesCategory";
+import ProductDetails from "./pages/ProductDetails";
 import NotFound from "./pages/NotFound";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/collections/charging" element={<ChargingCategory />} />
               <Route path="/collections/smart-devices" element={<SmartDevicesCategory />} />
               <Route path="/collections/accessories" element={<AccessoriesCategory />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <MobileBottomNav />
