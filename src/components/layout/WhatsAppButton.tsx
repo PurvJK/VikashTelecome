@@ -9,7 +9,7 @@ export const WhatsAppButton = () => (
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"
-        className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
         style={{ backgroundColor: "#25D366" }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
