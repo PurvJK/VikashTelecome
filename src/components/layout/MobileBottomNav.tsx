@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Phone, LayoutGrid, User, ShoppingCart } from "lucide-react";
+import { Home, MessageCircle, LayoutGrid, User, ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { MobileCategoriesPanel } from "./MobileCategoriesPanel";
 
 const navItems = [
   { label: "Home", icon: Home, path: "/" },
-  { label: "Contact Us", icon: Phone, path: "/contact" },
+  { label: "WhatsApp", icon: MessageCircle, path: "#whatsapp" },
   { label: "Categories", icon: LayoutGrid, path: "#categories" },
   { label: "Log In", icon: User, path: "/login" },
   { label: "Cart", icon: ShoppingCart, path: "/cart" },
@@ -25,6 +25,9 @@ export const MobileBottomNav = () => {
     } else if (item.label === "Cart") {
       e.preventDefault();
       setIsCartOpen(true);
+    } else if (item.label === "WhatsApp") {
+      e.preventDefault();
+      window.open("https://wa.me/919999999999", "_blank");
     }
   };
 

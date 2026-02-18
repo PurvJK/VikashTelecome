@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Search, User, ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
@@ -134,9 +135,9 @@ export const Header = () => {
                 {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
               </button>
 
-              <button className="p-2 rounded-full hover:bg-muted transition-colors hidden sm:flex" aria-label="Account">
+              <Link to="/login" className="p-2 rounded-full hover:bg-muted transition-colors hidden sm:flex" aria-label="Account">
                 <User className="w-5 h-5" />
-              </button>
+              </Link>
 
               <button
                 onClick={() => setIsCartOpen(true)}
