@@ -11,6 +11,8 @@ import AudioCategory from "./pages/AudioCategory";
 import ChargingCategory from "./pages/ChargingCategory";
 import SmartDevicesCategory from "./pages/SmartDevicesCategory";
 import AccessoriesCategory from "./pages/AccessoriesCategory";
+import MobilesCategory from "./pages/MobilesCategory";
+import MobileAccessoriesCategory from "./pages/MobileAccessoriesCategory";
 import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -37,6 +39,8 @@ function AppContent() {
         <Route path="/collections/charging" element={<ChargingCategory />} />
         <Route path="/collections/smart-devices" element={<SmartDevicesCategory />} />
         <Route path="/collections/accessories" element={<AccessoriesCategory />} />
+        <Route path="/mobiles" element={<MobilesCategory />} />
+        <Route path="/mobile-accessories" element={<MobileAccessoriesCategory />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

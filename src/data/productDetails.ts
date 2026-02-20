@@ -3,6 +3,8 @@ import { audioProducts } from "./audioProducts";
 import { chargingProducts } from "./chargingProducts";
 import { smartDevicesProducts } from "./smartDevicesProducts";
 import { accessoriesProducts } from "./accessoriesProducts";
+import { mobileProducts } from "./mobileProducts";
+import { mobileAccessoriesProducts } from "./mobileAccessoriesProducts";
 
 export interface ProductDetail extends Product {
   brand: string;
@@ -34,6 +36,8 @@ export const allProducts: Product[] = [
   ...chargingProducts,
   ...smartDevicesProducts,
   ...accessoriesProducts,
+  ...mobileProducts,
+  ...mobileAccessoriesProducts,
 ];
 
 // Generate detailed info for any product
@@ -60,6 +64,8 @@ export function getProductDetail(id: string): ProductDetail | undefined {
     "laptop-stands": "ErgoStand",
     "usb-hubs": "USB Pro",
     "mouse-keyboards": "MechKey",
+    mobiles: "TechMobile",
+    "mobile-accessories": "AccPro",
   };
 
   const specMap: Record<string, { feature: string; value: string }[]> = {

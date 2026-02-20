@@ -53,6 +53,14 @@ export const categories: Category[] = [
 
 export const megaMenuCategories = [
   {
+    title: "Mobiles",
+    items: ["Samsung", "Xiaomi", "Realme", "OnePlus", "Vivo", "POCO"],
+  },
+  {
+    title: "Mobile Accessories",
+    items: ["Chargers", "Cables", "Cases", "Screen Protectors", "Phone Holders"],
+  },
+  {
     title: "Audio",
     items: ["Bluetooth Speakers", "TWS Earbuds", "Wireless Headphones", "Neckbands", "Soundbars"],
   },
