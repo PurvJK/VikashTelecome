@@ -4,6 +4,8 @@ import { X } from "lucide-react";
 import { megaMenuCategories } from "@/data/categories";
 
 const categoryRoutes: Record<string, string> = {
+  Mobiles: "/mobiles",
+  "Mobile Accessories": "/mobile-accessories",
   Audio: "/collections/audio",
   Charging: "/collections/charging",
   "Smart Devices": "/collections/smart-devices",
