@@ -4,6 +4,7 @@ import { toast } from "@/hooks/use-toast";
 interface User {
   name: string;
   email: string;
+  role: "admin" | "user";
 }
 
 interface AuthContextType {
@@ -23,18 +24,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const login = async (email: string, password: string) => {
-    // Simulate API call
     await new Promise((r) => setTimeout(r, 1200));
-    const u = { name: "User", email };
+    const isAdmin = email === "admin@vikash.com" && password === "admin123";
+    const u: User = { name: isAdmin ? "Admin" : "User", email, role: isAdmin ? "admin" : "user" };
     setUser(u);
     localStorage.setItem("auth_user", JSON.stringify(u));
     localStorage.setItem("auth_token", "mock_jwt_token");
-    toast({ title: "Welcome back!", description: "You've logged in successfully." });
+    toast({ title: isAdmin ? "Welcome, Admin!" : "Welcome back!", description: "You've logged in successfully." });
   };
 
   const signup = async (name: string, email: string, phone: string, password: string) => {
     await new Promise((r) => setTimeout(r, 1200));
-    const u = { name, email };
+    const u: User = { name, email, role: "user" };
     setUser(u);
     localStorage.setItem("auth_user", JSON.stringify(u));
     localStorage.setItem("auth_token", "mock_jwt_token");

@@ -34,7 +34,11 @@ const Login = () => {
     setLoading(true);
     try {
       await login(email, password);
-      navigate("/");
+      if (email === "admin@vikash.com" && password === "admin123") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch {
       setErrors({ email: "Login failed. Please try again." });
     } finally {
@@ -136,7 +140,13 @@ const Login = () => {
           Continue with Google
         </Button>
 
-        <p className="text-center text-sm text-muted-foreground mt-6">
+        <div className="bg-muted/50 rounded-lg p-3 mt-4 text-xs text-muted-foreground space-y-1">
+          <p className="font-semibold text-foreground text-sm">Admin Login</p>
+          <p>Email: <span className="font-mono text-foreground">admin@vikash.com</span></p>
+          <p>Password: <span className="font-mono text-foreground">admin123</span></p>
+        </div>
+
+        <p className="text-center text-sm text-muted-foreground mt-4">
           Don't have an account?{" "}
           <Link to="/signup" className="text-primary hover:text-primary-hover font-medium transition-colors">
             Sign Up
