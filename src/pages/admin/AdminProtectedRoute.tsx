@@ -7,10 +7,10 @@ import { useAuth } from "@/contexts/AuthContext";
  * Replace this check with real role verification when backend is connected.
  */
 export default function AdminProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (!isAuthenticated || user?.role !== "admin") {
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;
