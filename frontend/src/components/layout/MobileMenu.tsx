@@ -1,0 +1,164 @@
+import { motion } from "framer-motion";
+import { ChevronRight, Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useCategories } from "@/contexts/CategoriesContext";
+import { api } from "@/lib/api";
+
+interface MobileMenuProps {
+  onClose: () => void;
+}
+
+interface Brand {
+  id?: string;
+  _id?: string;
+  name: string;
+  slug: string;
+  productCount?: number;
+}
+
+export const MobileMenu = ({ onClose }: MobileMenuProps) => {
+  const { categories: allCategories, loading } = useCategories();
+  const categories = allCategories.filter((cat) => cat.status !== "inactive");
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [brandsLoading, setBrandsLoading] = useState(true);
+
+  const handleScrollToFooter = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onClose();
+    const footerElement = document.getElementById("footer-section");
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const loadBrands = async () => {
+      try {
+        const data = await api.fetchBrands();
+        setBrands(data);
+      } catch (error) {
+        console.error("Failed to load brands:", error);
+      } finally {
+        setBrandsLoading(false);
+      }
+    };
+    loadBrands();
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-40 lg:hidden"
+    >
+      <div className="absolute inset-0 bg-foreground/20 backdrop-blur-sm" onClick={onClose} />
+      <motion.div
+        initial={{ x: "-100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "-100%" }}
+        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+        className="absolute left-0 top-0 bottom-0 w-[300px] bg-background shadow-card-hover overflow-y-auto"
+      >
+        <div className="p-6 pt-20">
+          <nav className="space-y-1">
+            <Link
+              to="/"
+              onClick={onClose}
+              className="flex items-center justify-between py-3 px-2 text-foreground hover:text-primary hover:bg-accent rounded-lg transition-colors"
+            >
+              <span className="font-medium">Home</span>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </Link>
+            {["Best Sellers"].map((item) => (
+              <a
+                key={item}
+                href="#"
+                onClick={onClose}
+                className="flex items-center justify-between py-3 px-2 text-foreground hover:text-primary hover:bg-accent rounded-lg transition-colors"
+              >
+                <span className="font-medium">{item}</span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              </a>
+            ))}
+            <Link
+              to="/support"
+              onClick={onClose}
+              className="flex items-center justify-between py-3 px-2 text-foreground hover:text-primary hover:bg-accent rounded-lg transition-colors"
+            >
+              <span className="font-medium">Support</span>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </Link>
+            <a
+              href="#footer-section"
+              onClick={handleScrollToFooter}
+              className="flex items-center justify-between py-3 px-2 text-foreground hover:text-primary hover:bg-accent rounded-lg transition-colors"
+            >
+              <span className="font-medium">About Us</span>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </a>
+          </nav>
+
+          <div className="mt-6 pt-6 border-t border-border">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Categories</h3>
+              {loading && <Loader2 className="w-4 h-4 animate-spin text-primary" />}
+            </div>
+            {categories.length === 0 && !loading ? (
+              <p className="text-sm text-muted-foreground">No categories available</p>
+            ) : (
+              categories.map((cat) => (
+                <Link
+                  key={cat.id}
+                  to={`/categories/${cat.slug}`}
+                  onClick={onClose}
+                  className="flex items-center justify-between py-3 px-2 hover:bg-accent rounded-lg transition-colors mb-2"
+                >
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-sm text-foreground">{cat.title}</h4>
+                    {cat.productCount !== undefined && (
+                      <span className="text-xs text-muted-foreground">
+                        {cat.productCount} product{cat.productCount !== 1 ? "s" : ""}
+                      </span>
+                    )}
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                </Link>
+              ))
+            )}
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-border">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Brands</h3>
+              {brandsLoading && <Loader2 className="w-4 h-4 animate-spin text-primary" />}
+            </div>
+            {brands.length === 0 && !brandsLoading ? (
+              <p className="text-sm text-muted-foreground">No brands available</p>
+            ) : (
+              brands.map((brand) => (
+                <Link
+                  key={brand.id || brand._id}
+                  to={`/brands/${brand.slug}`}
+                  onClick={onClose}
+                  className="flex items-center justify-between py-3 px-2 hover:bg-accent rounded-lg transition-colors mb-2"
+                >
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-sm text-foreground">{brand.name}</h4>
+                    {brand.productCount !== undefined && (
+                      <span className="text-xs text-muted-foreground">
+                        {brand.productCount} product{brand.productCount !== 1 ? "s" : ""}
+                      </span>
+                    )}
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
